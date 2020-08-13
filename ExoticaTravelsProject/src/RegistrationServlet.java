@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,8 +18,9 @@ import javax.servlet.http.HttpSession;
 @WebServlet("/RegistrationServlet")
 public class RegistrationServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-      String uname,city,contactno,loginid,password;
+      String uname,city,contactno,loginid,password,reEnterPassword;
       HttpSession session;
+      ArrayList<String> errorMessage=new ArrayList<String>();
     public RegistrationServlet() {
         super();
         // TODO Auto-generated constructor stub
@@ -32,6 +34,62 @@ public class RegistrationServlet extends HttpServlet {
 			contactno=request.getParameter("contactno");
 			loginid=request.getParameter("loginid");
 			password=request.getParameter("password");
+			reEnterPassword=request.getParameter("repassword");
+			
+			errorMessage.clear();
+			if(errorMessage.isEmpty()){
+				if(uname.equals("")){
+					errorMessage.add("Please enter the name");
+					uname="";
+				}
+				if(city.equals("")){
+					errorMessage.add("Please enter the address");
+					city="";
+				}
+				if(contactno.equals("")){
+					errorMessage.add("Please enter the contactno");
+					contactno="";
+				}
+				else{
+					try{
+						int i=Integer.parseInt(contactno);
+					}catch(Exception e){
+						errorMessage.add("Please enter a valid contact number");
+						
+					}
+				}
+				if(loginid.equals("")){
+					errorMessage.add("Please enter the loginid");
+					loginid="";
+				}
+				if(password.equals("")){
+					errorMessage.add("Please enter the password");
+					password="";
+				}
+				if(reEnterPassword.equals("")){
+					errorMessage.add("Please enter the reEnterPassword");
+					reEnterPassword="";
+				}
+				if(!(password.equals(""))&&!(reEnterPassword.equals(""))){
+					if(!(password.equals(reEnterPassword))){
+						errorMessage.add("The password and re-enter password are not same");
+						password="";
+						reEnterPassword="";
+					}
+				}
+				if(!errorMessage.isEmpty()){
+					request.setAttribute("unameAtt",uname);
+					request.setAttribute("addressAtt",city);
+					request.setAttribute("contactnoAtt",contactno);
+					
+					request.setAttribute("loginidAtt",loginid);
+					request.setAttribute("passwordAtt",password);
+					request.setAttribute("reEnterPasswordAtt",reEnterPassword);
+					request.setAttribute("errorMessage",errorMessage);
+					RequestDispatcher rd=request.getRequestDispatcher("RegistrationPage.jsp");
+					rd.forward(request, response);
+				}
+				else{
 			
 			writeFile();
 			UserDetailsModel udm=new UserDetailsModel(uname,city,contactno,loginid,password);
@@ -40,7 +98,9 @@ public class RegistrationServlet extends HttpServlet {
 			RequestDispatcher rd=request.getRequestDispatcher("WelcomPage.jsp");
 			rd.forward(request, response);
 			
-		}finally{
+				}
+			}
+			}finally{
 			out.close();
 		}
     	
