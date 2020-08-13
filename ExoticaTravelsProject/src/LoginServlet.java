@@ -52,7 +52,7 @@ public class LoginServlet extends HttpServlet {
     boolean readFile(){
     	boolean value=false;
     	try{
-    		FileReader fr=new FileReader("E:/Servlets/ExoticaTravelsProject/ExoticaTravelLogin.txt");
+    		FileReader fr=new FileReader("E:/GitRepositories/ExoticaTravels/ExoticaTravelsProject/ExoticaTravelLogin.txt");
     		BufferedReader br=new BufferedReader(fr);
     		String data;
     		while((data=br.readLine())!=null)

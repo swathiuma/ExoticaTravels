@@ -118,7 +118,7 @@ public class PlanTravelServlet extends HttpServlet {
 	{
 		try{
 			System.out.println("1");
-			fw=new FileWriter("E:/Servlets/ExoticaTravelsProject/PlanTravel.txt",true);
+			fw=new FileWriter("E:/GitRepositories/ExoticaTravels/ExoticaTravelsProject/PlanTravel.txt",true);
 			bw=new BufferedWriter(fw);
 			bw.write(udm.getUname()+"~"+udm.getAddress()+
 					"~"+udm.getContactno()+"~"+arrDate+"~"+depDate+"~"+holidayKind+"~"+

@@ -1,7 +1,7 @@
 
 
 import java.io.BufferedWriter;
-import java.io.File;
+import java.io.*;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -51,9 +51,11 @@ public class RegistrationServlet extends HttpServlet {
 					contactno="";
 				}
 				else{
+					
 					try{
 						int i=Integer.parseInt(contactno);
 					}catch(Exception e){
+						System.out.println("contactno ="+contactno+"\n"+e);
 						errorMessage.add("Please enter a valid contact number");
 						
 					}
@@ -94,6 +96,7 @@ public class RegistrationServlet extends HttpServlet {
 			writeFile();
 			UserDetailsModel udm=new UserDetailsModel(uname,city,contactno,loginid,password);
 			request.setAttribute("model", udm);
+			session=request.getSession();
 			session.setAttribute("smodel", udm);
 			RequestDispatcher rd=request.getRequestDispatcher("WelcomPage.jsp");
 			rd.forward(request, response);
@@ -110,7 +113,7 @@ public class RegistrationServlet extends HttpServlet {
     	try{
     		/*File myfile=new File("E:/ExoticaTravelLogin.txt");
     		if(myfile.createNewFile()){*/
-    		File f=new File("E:/Servlets/ExoticaTravelsProject/ExoticaTravelLogin.txt");
+    		File f=new File("E:/GitRepositories/ExoticaTravels/ExoticaTravelsProject/ExoticaTravelLogin.txt");
     		if(f.exists())
     		{
     		System.out.println("file already exists");
@@ -122,7 +125,7 @@ public class RegistrationServlet extends HttpServlet {
     		fw.close();
     		}
     		else{
-    			File ff=new File("E:/Servlets/ExoticaTravelsProject/ExoticaTravelLogin.txt");
+    			File ff=new File("E:/GitRepositories/ExoticaTravels/ExoticaTravelsProject/ExoticaTravelLogin.txt");
     			System.out.println("file not already exists");
     			FileWriter fw=new FileWriter(ff);
         		BufferedWriter bw=new BufferedWriter(fw);
